@@ -2,7 +2,6 @@ import React, { Suspense, useEffect } from "react";
 import "./App.scss";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import ErrorBoundary from "./components/errorBoundry";
 import ArtistDetail from "./pages/artistDetail";
 
 const Login = React.lazy(() => import("./components/login"));
@@ -36,58 +35,56 @@ function App() {
               </div>
             }
           >
-            <ErrorBoundary>
-              <Routes location={location}>
-                <Route path="/">
-                  {" "}
-                  <Landing />
-                </Route>
-                <Route path="/login">
-                  {" "}
-                  <Login />
-                </Route>
-                <Route path="/password">
-                  {" "}
-                  <Password />
-                </Route>
-                <Route path="/audio-features">
-                  {" "}
-                  <PersonalAudioFeatures />
-                </Route>
-                <Route path="/favourite-tracks">
-                  {" "}
-                  <Favourites />
-                </Route>
-                <Route path="/favourite-artists">
-                  {" "}
-                  <Favourites tracks={false} />
-                </Route>
-                <Route path="/search-panel">
-                  {" "}
-                  <SearchPanel />
-                </Route>
-                <Route path="/genres">
-                  {" "}
-                  <Genres />
-                </Route>
-                <Route path="/track-detail">
-                  {" "}
-                  <TrackDetail />
-                </Route>
-                <Route path="/playlists">
-                  {" "}
-                  <Playlists />
-                </Route>
-                <Route path="/playlist-detail">
-                  {" "}
-                  <PlaylistDetail />
-                </Route>
-                <Route path="/artist-detail">
-                  {" "}
-                  <ArtistDetail />
-                </Route>
-              </Routes>
-            </ErrorBoundary>
+            <Routes location={location}>
+              <Route path="/">
+                {" "}
+                <Landing />
+              </Route>
+              <Route path="/login">
+                {" "}
+                <Login />
+              </Route>
+              <Route path="/password">
+                {" "}
+                <Password />
+              </Route>
+              <Route path="/audio-features">
+                {" "}
+                <PersonalAudioFeatures />
+              </Route>
+              <Route path="/favourite-tracks">
+                {" "}
+                <Favourites />
+              </Route>
+              <Route path="/favourite-artists">
+                {" "}
+                <Favourites tracks={false} />
+              </Route>
+              <Route path="/search-panel">
+                {" "}
+                <SearchPanel />
+              </Route>
+              <Route path="/genres">
+                {" "}
+                <Genres />
+              </Route>
+              <Route path="/track-detail">
+                {" "}
+                <TrackDetail />
+              </Route>
+              <Route path="/playlists">
+                {" "}
+                <Playlists />
+              </Route>
+              <Route path="/playlist-detail">
+                {" "}
+                <PlaylistDetail />
+              </Route>
+              <Route path="/artist-detail">
+                {" "}
+                <ArtistDetail />
+              </Route>
+            </Routes>
           </Suspense>
           {location.pathname !== "/" && (
             <div

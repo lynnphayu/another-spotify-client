@@ -13,7 +13,15 @@ export type Album = {
 };
 
 export type Artist = {
-  [key: string]: unknown;
+  id: string;
+  external_urls: ExternalUrls;
+  href: string;
+  type: string;
+  uri: string;
+  name: string;
+  images?: Image[];
+  popularity?: number;
+  genres?: string[];
 };
 
 export type Playlist = {

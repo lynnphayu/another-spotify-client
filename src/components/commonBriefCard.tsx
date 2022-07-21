@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-export default function CommonBriefCard(data: Record<string, string>) {
+export default function CommonBriefCard({
+  data,
+}: {
+  data: Record<string, unknown>;
+}) {
   const { title, imageUrl, subtitle, previewUrl, explicit, popularity } = data;
-  const [audio] = useState(new Audio(previewUrl));
+  const [audio] = useState(new Audio(previewUrl as string));
   const [imageLoaded, setImageLoaded] = useState(false);
   const [playing, setPlaying] = useState(false);
 
@@ -30,10 +34,10 @@ export default function CommonBriefCard(data: Record<string, string>) {
           !imageLoaded && "h-88"
         }`}
         onLoad={() => setImageLoaded(true)}
-        src={imageUrl}
+        src={imageUrl as string}
         alt="Artwork"
       />
-      {explicit && (
+      {(explicit as boolean) && (
         <div className="w-full rounded-md absolute flex flex-wrap justify-end top-0 left-0 from-gray-900 p-6">
           {/* <div className="text-left text-sm flex flex-wrap flex-shrink-0 items-center border-3 rounded-sm border-gray-800 px-0.5 bg-gray-800">
         <svg xmlns="http://www.w3.org/2000/svg" className="inline stroke-current text-gray-300" width="12" height="12" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -51,8 +55,10 @@ export default function CommonBriefCard(data: Record<string, string>) {
       )}
       <div className="w-full h-2/3 rounded-md absolute flex flex-wrap content-end items-end justify-between bottom-0 left-0 h-1/2 bg-gradient-to-t from-gray-900 p-6 hover:bg-none">
         <div>
-          <p className="text-gray-300 text-xl font-medium w-full">{title}</p>
-          <p className="text-gray-400 w-full">{subtitle}</p>
+          <p className="text-gray-300 text-xl font-medium w-full">
+            {title as string}
+          </p>
+          <p className="text-gray-400 w-full">{subtitle as string}</p>
         </div>
       </div>
       {data.hasOwnProperty("previewUrl") && (
@@ -61,7 +67,7 @@ export default function CommonBriefCard(data: Record<string, string>) {
             className="border-4 border-gray-300 rounded-full p-1.5"
             onClick={onToggle}
           >
-            {previewUrl &&
+            {(previewUrl as string) &&
               (!playing ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

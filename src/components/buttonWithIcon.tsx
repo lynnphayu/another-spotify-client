@@ -1,10 +1,14 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 export default function ButtonWithIcon({
   svgIcon,
   text,
-  onClick = () => {},
-}): React.Component<{svgIcon, text, onClick}> {
+  onClick,
+}: {
+  svgIcon: ReactNode;
+  text: string;
+  onClick: () => {};
+}) {
   return (
     <div
       className="cursor-pointer w-full p-2 border-2 rounded-md shadow-sm hover:border-green-500 justify-end content-around flex flex-wrap"

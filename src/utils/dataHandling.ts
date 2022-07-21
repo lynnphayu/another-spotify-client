@@ -12,7 +12,7 @@ export function getArtistsNames(artists: Record<string, unknown>[] = []) {
   return artistName;
 }
 
-export function genreAggregate(genres = []) {
+export function genreAggregate(genres: string[] = []) {
   let genre = genres[0];
   genres.length > 1 && (genre = genre.concat(", " + genres[1] + " "));
   if (genres.length > 3) {
