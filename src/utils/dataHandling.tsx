@@ -1,6 +1,6 @@
 import { Image } from '../types/tracks';
 
-export function getSmallestSizeImage(images: Image[], size: number) {
+export function getSmallestSizeImage(images: Image[] = [], size: number) {
   let url = images.find(({ width }) => width === size)?.url;
   images.length > 0 && !url && (url = images[images.length - 1].url);
   return url;

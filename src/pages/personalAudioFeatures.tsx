@@ -22,8 +22,8 @@ export default function PersonalAudioFeatures() {
         data={d}
         sideLegendFlag={true}
         options={{
-          width: 200,
-          height: 200,
+          w: 200,
+          h: 200,
           radius: 4,
           areaLineStroke: 2,
           axisLineStroke: 2

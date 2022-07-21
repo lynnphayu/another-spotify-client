@@ -1632,7 +1632,7 @@ export default function PlaylistDetail() {
       }
     }
   ];
-  const { playlist: { name, images = [], owner, description } = {} } = useLocation()?.state as {
+  const { playlist: { name, images = [], description } = {} } = (useLocation()?.state || {}) as {
     playlist: Playlist;
   };
   const imageUrl = getSmallestSizeImage(images, 640 || 300);

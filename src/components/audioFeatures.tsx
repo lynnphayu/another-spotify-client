@@ -1,14 +1,34 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
+type CFG = {
+  radius: number;
+  w: number;
+  h: number;
+  factor: number;
+  factorLegend: number;
+  levels: number;
+  maxValue: number;
+  radians: number;
+  opacityArea: number;
+  ToRight: number;
+  TranslateX: number;
+  TranslateY: number;
+  ExtraWidthX: number;
+  ExtraWidthY: number;
+  areaLineStroke: number;
+  axisLineStroke: number;
+  color: readonly string[];
+  areaBetween: boolean;
+};
 export default function AudioFeatures({
   data,
   sideLegendFlag = true,
-  options: { width, height, areaLineStroke, axisLineStroke, radius, areaBetween } = {}
+  options: { w, h, areaLineStroke, axisLineStroke, radius, areaBetween } = {}
 }: {
-  data: Record<string, number>[];
-  sideLegendFlag: boolean;
-  options: Record<string, number>;
+  data?: Record<string, number>[];
+  sideLegendFlag?: boolean;
+  options?: Partial<CFG>;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -18,26 +38,7 @@ export default function AudioFeatures({
       d: Record<string, string | number>[][],
       options: Record<string, unknown>
     ) {
-      var cfg: {
-        radius: number;
-        w: number;
-        h: number;
-        factor: number;
-        factorLegend: number;
-        levels: number;
-        maxValue: number;
-        radians: number;
-        opacityArea: number;
-        ToRight: number;
-        TranslateX: number;
-        TranslateY: number;
-        ExtraWidthX: number;
-        ExtraWidthY: number;
-        areaLineStroke: number;
-        axisLineStroke: number;
-        color: readonly string[];
-        areaBetween: boolean;
-      } = {
+      var cfg: CFG = {
         radius: 5,
         w: 600,
         h: 600,
@@ -512,8 +513,8 @@ export default function AudioFeatures({
 
     //Options for the Radar chart, other than default
     var mycfg = {
-      w: width || 360,
-      h: height || 360,
+      w: w || 360,
+      h: h || 360,
       maxValue: 1,
       levels: 5,
       TranslateX: 0,

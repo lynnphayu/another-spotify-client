@@ -9,9 +9,13 @@ import { genreAggregate, getSmallestSizeImage, upperFirst } from '../utils/dataH
 
 export default function ArtistDetail() {
   const [key, setKey] = useState(Math.random);
-  const history = useNavigate();
-  let { path, url } = useMatch();
-  const { artist: { name = '', images = [], genres } = {} } = useLocation()?.state as {
+  let { pathname: path, pathnameBase: url } = useMatch(window.location.href) || {
+    pathname: '',
+    pathnamebase: ''
+  };
+  const {
+    artist: { name = '', images = [], genres }
+  } = (useLocation()?.state || {}) as {
     artist: Artist;
   };
   const t = [
@@ -1904,9 +1908,11 @@ export default function ArtistDetail() {
   return (
     <div>
       <ArtistBriefCard
-        title={name}
-        imageUrl={imageUrl}
-        subtitle={upperFirst(genreAggregate(genres))}
+        data={{
+          title: name,
+          imageUrl: imageUrl,
+          subtitle: upperFirst(genreAggregate(genres) as unknown as string)
+        }}
       />
       <div className="grid grid-cols-2 gap-2 my-2">
         <Link to={`${url}/top-tracks`} onClick={() => setKey(Math.random())}>
