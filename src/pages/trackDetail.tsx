@@ -1,32 +1,34 @@
-import React from "react";
-import { useLocation } from "react-router";
-import { getArtistsNames, getSmallestSizeImage } from "../utils/dataHandling";
-import AlbumCard from "../components/albumCard";
-import TrackCard from "../components/commonBriefCard";
-import { Track } from "../types/tracks";
+import React from 'react';
+import { useLocation } from 'react-router';
+import { getArtistsNames, getSmallestSizeImage } from '../utils/dataHandling';
+import AlbumCard from '../components/albumCard';
+import TrackCard from '../components/commonBriefCard';
+import { Track } from '../types/tracks';
 
 export default function TrackDetail() {
   const {
     track: {
-      album: { images } = {},
+      album: { images },
       name,
       artists,
       preview_url,
       explicit,
-      popularity,
-    } = {},
+      popularity
+    }
   } = useLocation()?.state as { track: Track };
   const imageUrl = getSmallestSizeImage(images, 640 || 300);
   return (
     <div className="w-full">
       <div className="flex flex-wrap justify-center w-full">
         <TrackCard
-          title={name}
-          explicit={explicit}
-          imageUrl={imageUrl}
-          subtitle={getArtistsNames(artists)}
-          popularity={popularity}
-          previewUrl={preview_url}
+          data={{
+            title: name,
+            explicit: explicit,
+            imageUrl,
+            subtitle: getArtistsNames(artists),
+            popularity,
+            previewUrl: preview_url
+          }}
         />
         <AlbumCard />
       </div>

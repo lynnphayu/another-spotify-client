@@ -1,5 +1,5 @@
-import React from "react";
-import AudioFeatures from "../components/audioFeatures";
+import React from 'react';
+import AudioFeatures from '../components/audioFeatures';
 
 export default function PersonalAudioFeatures() {
   const d = [
@@ -13,8 +13,8 @@ export default function PersonalAudioFeatures() {
       Acoustic: 0.514,
       Instrumental: 0.0902,
       Live: 0.159,
-      Valence: 0.624,
-    },
+      Valence: 0.624
+    }
   ];
   return (
     <div>
@@ -26,7 +26,7 @@ export default function PersonalAudioFeatures() {
           height: 200,
           radius: 4,
           areaLineStroke: 2,
-          axisLineStroke: 2,
+          axisLineStroke: 2
         }}
       />
     </div>

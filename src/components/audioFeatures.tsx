@@ -1,24 +1,43 @@
-/* eslint-ignore */
-import React, { useEffect, useRef } from "react";
-import * as d3 from "d3";
+import React, { useEffect, useRef } from 'react';
+import * as d3 from 'd3';
 
 export default function AudioFeatures({
-  data = {},
+  data,
   sideLegendFlag = true,
-  options: {
-    width,
-    height,
-    areaLineStroke,
-    axisLineStroke,
-    radius,
-    areaBetween,
-  } = {},
+  options: { width, height, areaLineStroke, axisLineStroke, radius, areaBetween } = {}
+}: {
+  data: Record<string, number>[];
+  sideLegendFlag: boolean;
+  options: Record<string, number>;
 }) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   var RadarChart = {
-    draw: function (id, d, options) {
-      var cfg = {
+    draw: function (
+      id: HTMLDivElement | null,
+      d: Record<string, string | number>[][],
+      options: Record<string, unknown>
+    ) {
+      var cfg: {
+        radius: number;
+        w: number;
+        h: number;
+        factor: number;
+        factorLegend: number;
+        levels: number;
+        maxValue: number;
+        radians: number;
+        opacityArea: number;
+        ToRight: number;
+        TranslateX: number;
+        TranslateY: number;
+        ExtraWidthX: number;
+        ExtraWidthY: number;
+        areaLineStroke: number;
+        axisLineStroke: number;
+        color: readonly string[];
+        areaBetween: boolean;
+      } = {
         radius: 5,
         w: 600,
         h: 600,
@@ -36,26 +55,26 @@ export default function AudioFeatures({
         areaLineStroke: 3,
         axisLineStroke: 3,
         color: d3.schemeCategory10,
-        areaBetween: false,
+        areaBetween: false
       };
 
-      if ("undefined" !== typeof options) {
+      if ('undefined' !== typeof options) {
         for (var i in options) {
-          if ("undefined" !== typeof options[i]) {
-            cfg[i] = options[i];
+          if ('undefined' !== typeof options[i]) {
+            (cfg as Record<string, unknown>)[i] = options[i];
           }
         }
       }
 
       cfg.maxValue = Math.max(
-        cfg.maxValue,
-        d3.max(d, function (i) {
-          return d3.max(
+        cfg.maxValue as number,
+        d3.max(d, (i) =>
+          d3.max(
             i.map(function (o) {
-              return o.value;
+              return o.value as number;
             })
-          );
-        })
+          )
+        ) as number
       );
       var allAxis = d[0].map(function (i, j) {
         return i.axis;
@@ -63,63 +82,48 @@ export default function AudioFeatures({
       var total = allAxis.length;
       var radius = cfg.factor * Math.min(cfg.w / 2, cfg.h / 2);
       // var Format = d3.format('%');
-      d3.select(id).select("svg").remove();
+      d3.select(id).select('svg').remove();
 
       var g = d3
         .select(id)
-        .append("svg")
-        .attr("class", "graph")
-        .attr("width", cfg.w + cfg.ExtraWidthX)
-        .attr("height", cfg.h + cfg.ExtraWidthY)
-        .append("g")
-        .attr(
-          "transform",
-          "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")"
-        );
-      var tooltip;
+        .append('svg')
+        .attr('class', 'graph')
+        .attr('width', cfg.w + cfg.ExtraWidthX)
+        .attr('height', cfg.h + cfg.ExtraWidthY)
+        .append('g')
+        .attr('transform', 'translate(' + cfg.TranslateX + ',' + cfg.TranslateY + ')');
+      var tooltip: d3.Selection<SVGTextElement, unknown, HTMLElement, any>;
 
       //Circular segments
       for (var j = 0; j < cfg.levels - 1; j++) {
         const levelFactor = cfg.factor * radius * ((j + 1) / cfg.levels);
-        g.selectAll(".levels")
+        g.selectAll('.levels')
           .data(allAxis)
           .enter()
-          .append("svg:line")
+          .append('svg:line')
           .attr(
-            "x1",
-            (d, i) =>
-              levelFactor *
-              (1 - cfg.factor * Math.sin((i * cfg.radians) / total))
+            'x1',
+            (d, i) => levelFactor * (1 - cfg.factor * Math.sin((i * cfg.radians) / total))
           )
           .attr(
-            "y1",
-            (d, i) =>
-              levelFactor *
-              (1 - cfg.factor * Math.cos((i * cfg.radians) / total))
+            'y1',
+            (d, i) => levelFactor * (1 - cfg.factor * Math.cos((i * cfg.radians) / total))
           )
           .attr(
-            "x2",
-            (d, i) =>
-              levelFactor *
-              (1 - cfg.factor * Math.sin(((i + 1) * cfg.radians) / total))
+            'x2',
+            (d, i) => levelFactor * (1 - cfg.factor * Math.sin(((i + 1) * cfg.radians) / total))
           )
           .attr(
-            "y2",
-            (d, i) =>
-              levelFactor *
-              (1 - cfg.factor * Math.cos(((i + 1) * cfg.radians) / total))
+            'y2',
+            (d, i) => levelFactor * (1 - cfg.factor * Math.cos(((i + 1) * cfg.radians) / total))
           )
-          .attr("class", "line")
-          .style("stroke", "grey")
-          .style("stroke-opacity", "0.75")
-          .style("stroke-width", "0.3px")
+          .attr('class', 'line')
+          .style('stroke', 'grey')
+          .style('stroke-opacity', '0.75')
+          .style('stroke-width', '0.3px')
           .attr(
-            "transform",
-            "translate(" +
-              (cfg.w / 2 - levelFactor) +
-              ", " +
-              (cfg.h / 2 - levelFactor) +
-              ")"
+            'transform',
+            'translate(' + (cfg.w / 2 - levelFactor) + ', ' + (cfg.h / 2 - levelFactor) + ')'
           );
       }
 
@@ -142,29 +146,20 @@ export default function AudioFeatures({
 
       let series = 0;
 
-      var axis = g
-        .selectAll(".axis")
-        .data(allAxis)
-        .enter()
-        .append("g")
-        .attr("class", "axis");
+      var axis = g.selectAll('.axis').data(allAxis).enter().append('g').attr('class', 'axis');
       axis
-        .append("line")
-        .attr("x1", cfg.w / 2)
-        .attr("y1", cfg.h / 2)
-        .attr("x2", function (d, i) {
-          return (
-            (cfg.w / 2) * (1 - cfg.factor * Math.sin((i * cfg.radians) / total))
-          );
+        .append('line')
+        .attr('x1', cfg.w / 2)
+        .attr('y1', cfg.h / 2)
+        .attr('x2', function (d, i) {
+          return (cfg.w / 2) * (1 - cfg.factor * Math.sin((i * cfg.radians) / total));
         })
-        .attr("y2", function (d, i) {
-          return (
-            (cfg.h / 2) * (1 - cfg.factor * Math.cos((i * cfg.radians) / total))
-          );
+        .attr('y2', function (d, i) {
+          return (cfg.h / 2) * (1 - cfg.factor * Math.cos((i * cfg.radians) / total));
         })
-        .attr("class", "line")
-        .style("stroke", (d, i) => cfg.color[i])
-        .style("stroke-width", `${axisLineStroke}px`);
+        .attr('class', 'line')
+        .style('stroke', (d, i) => cfg.color[i])
+        .style('stroke-width', `${axisLineStroke}px`);
 
       // axis.append("text")
       //   .attr("class", "legend")
@@ -178,184 +173,184 @@ export default function AudioFeatures({
       //   .attr("x", (d, i) => cfg.w / 2 * (1 - cfg.factorLegend * Math.sin(i * cfg.radians / total)) - 30 * Math.sin(i * cfg.radians / total))
       //   .attr("y", (d, i) => cfg.h / 2 * (1 - Math.cos(i * cfg.radians / total)) - 15 * Math.cos(i * cfg.radians / total));
 
-      const unionArea = [];
-      var constDv = [];
+      const unionArea: number[][] = [];
+      var constDv: number[][] = [];
       d.forEach(function (y, x) {
-        const dataValues = [];
-        g.selectAll(".nodes").data(y, function (j, i) {
+        const dataValues: number[][] = [];
+        g.selectAll('.nodes').data(y, (k, i) => {
+          const j = k as { value: number };
           dataValues.push([
             (cfg.w / 2) *
               (1 -
-                (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) *
+                (parseFloat(Math.max(j.value, 0).toString()) / cfg.maxValue) *
                   cfg.factor *
                   Math.sin((i * cfg.radians) / total)),
             (cfg.h / 2) *
               (1 -
-                (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) *
+                (parseFloat(Math.max(j.value, 0).toString()) / cfg.maxValue) *
                   cfg.factor *
-                  Math.cos((i * cfg.radians) / total)),
+                  Math.cos((i * cfg.radians) / total))
           ]);
           unionArea.push([
             (cfg.w / 2) *
               (1 -
-                (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) *
+                (parseFloat(Math.max(j.value, 0).toString()) / cfg.maxValue) *
                   cfg.factor *
                   Math.sin((i * cfg.radians) / total)),
             (cfg.h / 2) *
               (1 -
-                (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) *
+                (parseFloat(Math.max(j.value, 0).toString()) / cfg.maxValue) *
                   cfg.factor *
-                  Math.cos((i * cfg.radians) / total)),
+                  Math.cos((i * cfg.radians) / total))
           ]);
           if (i === y.length - 1) {
             unionArea.push(unionArea[x > 0 ? d[0].length + 1 : 0]);
             dataValues.push(dataValues[0]);
           }
+          return 'OHSH**T';
         });
         constDv = constDv.concat(dataValues);
 
         if (areaBetween) return;
-        g.selectAll(".area")
+        g.selectAll('.area')
           .data([dataValues])
           .enter()
-          .append("polygon")
-          .attr("class", "radar-chart-serie" + series)
-          .style("stroke-width", `${cfg.areaLineStroke}px`)
+          .append('polygon')
+          .attr('class', 'radar-chart-serie' + series)
+          .style('stroke-width', `${cfg.areaLineStroke}px`)
           // .style("stroke", cfg.color[0])
-          .style("stroke", "#23B883")
+          .style('stroke', '#23B883')
 
-          .attr("points", function (d) {
-            var str = "";
+          .attr('points', function (d) {
+            var str = '';
             for (var pti = 0; pti < d.length; pti++) {
-              str = str + d[pti][0] + "," + d[pti][1] + " ";
+              str = str + d[pti][0] + ',' + d[pti][1] + ' ';
             }
             return str;
           })
           // .style("fill", function (j, i) { return cfg.color[0] })
-          .style("fill", "#23B883")
-          .style("fill-opacity", cfg.opacityArea)
-          .on("mouseover", function (d) {
-            let z = "polygon." + d3.select(this).attr("class");
-            g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-            g.selectAll(z).transition(200).style("fill-opacity", 0.7);
+          .style('fill', '#23B883')
+          .style('fill-opacity', cfg.opacityArea)
+          .on('mouseover', function (d) {
+            let z = 'polygon.' + d3.select(this).attr('class');
+            g.selectAll('polygon').transition().style('fill-opacity', 0.1);
+            g.selectAll(z).transition().style('fill-opacity', 0.7);
           })
-          .on("mouseout", function () {
-            g.selectAll("polygon")
-              .transition(200)
-              .style("fill-opacity", cfg.opacityArea);
+          .on('mouseout', function () {
+            g.selectAll('polygon').transition().style('fill-opacity', cfg.opacityArea);
           });
         series++;
       });
       series = 0;
 
-      g.selectAll(".area")
+      g.selectAll('.area')
         .data([areaBetween ? unionArea : constDv])
         .enter()
-        .append("polygon")
-        .attr("class", "radar-chart-serie" + series)
-        .style("stroke-width", `${cfg.areaLineStroke}px`)
+        .append('polygon')
+        .attr('class', 'radar-chart-serie' + series)
+        .style('stroke-width', `${cfg.areaLineStroke}px`)
         // .style("stroke", cfg.color[0])
-        .style("stroke", "#23B883")
+        .style('stroke', '#23B883')
 
         .attr(
-          "points",
+          'points',
           !areaBetween
             ? function (d) {
-                var str = "";
+                var str = '';
                 for (var pti = 0; pti < d.length; pti++) {
-                  str = str + d[pti][0] + "," + d[pti][1] + " ";
+                  str = str + d[pti][0] + ',' + d[pti][1] + ' ';
                 }
                 return str;
               }
             : function (d) {
                 var str = `${cfg.w / 2},${cfg.h / 2} `;
-                str = str + d[0][0] + "," + d[0][1] + " ";
-                str = str + d[8][0] + "," + d[8][1] + " ";
-                str = str + d[9][0] + "," + d[9][1] + " ";
-                str = str + d[1][0] + "," + d[1][1] + " ";
-                str = str + d[0][0] + "," + d[0][1] + " ";
+                str = str + d[0][0] + ',' + d[0][1] + ' ';
+                str = str + d[8][0] + ',' + d[8][1] + ' ';
+                str = str + d[9][0] + ',' + d[9][1] + ' ';
+                str = str + d[1][0] + ',' + d[1][1] + ' ';
+                str = str + d[0][0] + ',' + d[0][1] + ' ';
 
-                str = str + d[6][0] + "," + d[6][1] + " ";
-                str = str + d[0][0] + "," + d[0][1] + " ";
-                str = str + d[8][0] + "," + d[8][1] + " ";
-                str = str + d[14][0] + "," + d[14][1] + " ";
-                str = str + d[6][0] + "," + d[6][1] + " ";
+                str = str + d[6][0] + ',' + d[6][1] + ' ';
+                str = str + d[0][0] + ',' + d[0][1] + ' ';
+                str = str + d[8][0] + ',' + d[8][1] + ' ';
+                str = str + d[14][0] + ',' + d[14][1] + ' ';
+                str = str + d[6][0] + ',' + d[6][1] + ' ';
 
-                str = str + d[6][0] + "," + d[6][1] + " ";
-                str = str + d[5][0] + "," + d[5][1] + " ";
-                str = str + d[13][0] + "," + d[13][1] + " ";
-                str = str + d[14][0] + "," + d[14][1] + " ";
-                str = str + d[6][0] + "," + d[6][1] + " ";
+                str = str + d[6][0] + ',' + d[6][1] + ' ';
+                str = str + d[5][0] + ',' + d[5][1] + ' ';
+                str = str + d[13][0] + ',' + d[13][1] + ' ';
+                str = str + d[14][0] + ',' + d[14][1] + ' ';
+                str = str + d[6][0] + ',' + d[6][1] + ' ';
 
-                str = str + d[5][0] + "," + d[5][1] + " ";
-                str = str + d[4][0] + "," + d[4][1] + " ";
-                str = str + d[12][0] + "," + d[12][1] + " ";
-                str = str + d[13][0] + "," + d[13][1] + " ";
-                str = str + d[5][0] + "," + d[5][1] + " ";
+                str = str + d[5][0] + ',' + d[5][1] + ' ';
+                str = str + d[4][0] + ',' + d[4][1] + ' ';
+                str = str + d[12][0] + ',' + d[12][1] + ' ';
+                str = str + d[13][0] + ',' + d[13][1] + ' ';
+                str = str + d[5][0] + ',' + d[5][1] + ' ';
 
-                str = str + d[4][0] + "," + d[4][1] + " ";
-                str = str + d[3][0] + "," + d[3][1] + " ";
-                str = str + d[11][0] + "," + d[11][1] + " ";
-                str = str + d[12][0] + "," + d[12][1] + " ";
-                str = str + d[4][0] + "," + d[4][1] + " ";
+                str = str + d[4][0] + ',' + d[4][1] + ' ';
+                str = str + d[3][0] + ',' + d[3][1] + ' ';
+                str = str + d[11][0] + ',' + d[11][1] + ' ';
+                str = str + d[12][0] + ',' + d[12][1] + ' ';
+                str = str + d[4][0] + ',' + d[4][1] + ' ';
 
-                str = str + d[3][0] + "," + d[3][1] + " ";
-                str = str + d[2][0] + "," + d[2][1] + " ";
-                str = str + d[10][0] + "," + d[10][1] + " ";
-                str = str + d[11][0] + "," + d[11][1] + " ";
-                str = str + d[3][0] + "," + d[3][1] + " ";
+                str = str + d[3][0] + ',' + d[3][1] + ' ';
+                str = str + d[2][0] + ',' + d[2][1] + ' ';
+                str = str + d[10][0] + ',' + d[10][1] + ' ';
+                str = str + d[11][0] + ',' + d[11][1] + ' ';
+                str = str + d[3][0] + ',' + d[3][1] + ' ';
 
-                str = str + d[2][0] + "," + d[2][1] + " ";
-                str = str + d[10][0] + "," + d[10][1] + " ";
-                str = str + d[9][0] + "," + d[9][1] + " ";
-                str = str + d[1][0] + "," + d[1][1] + " ";
-                str = str + d[2][0] + "," + d[2][1] + " ";
-                str = str + d[3][0] + "," + d[3][1] + " ";
-                str = str + d[4][0] + "," + d[4][1] + " ";
-                str = str + d[5][0] + "," + d[5][1] + " ";
-                str = str + d[6][0] + "," + d[6][1] + " ";
-                str = str + d[0][0] + "," + d[0][1] + " ";
+                str = str + d[2][0] + ',' + d[2][1] + ' ';
+                str = str + d[10][0] + ',' + d[10][1] + ' ';
+                str = str + d[9][0] + ',' + d[9][1] + ' ';
+                str = str + d[1][0] + ',' + d[1][1] + ' ';
+                str = str + d[2][0] + ',' + d[2][1] + ' ';
+                str = str + d[3][0] + ',' + d[3][1] + ' ';
+                str = str + d[4][0] + ',' + d[4][1] + ' ';
+                str = str + d[5][0] + ',' + d[5][1] + ' ';
+                str = str + d[6][0] + ',' + d[6][1] + ' ';
+                str = str + d[0][0] + ',' + d[0][1] + ' ';
                 return str;
                 // + `${cfg.w / 2},${cfg.h / 2}`;
               }
         )
         // .style("fill", function (j, i) { return cfg.color[0] })
-        .style("fill", "#23B883")
-        .style("fill-opacity", cfg.opacityArea)
-        .on("mouseover", function (d) {
-          let z = "polygon." + d3.select(this).attr("class");
-          g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-          g.selectAll(z).transition(200).style("fill-opacity", 0.7);
+        .style('fill', '#23B883')
+        .style('fill-opacity', cfg.opacityArea)
+        .on('mouseover', function (d) {
+          let z = 'polygon.' + d3.select(this).attr('class');
+          g.selectAll('polygon').transition().style('fill-opacity', 0.1);
+          g.selectAll(z).transition().style('fill-opacity', 0.7);
         })
-        .on("mouseout", function () {
-          g.selectAll("polygon")
-            .transition(200)
-            .style("fill-opacity", cfg.opacityArea);
+        .on('mouseout', function () {
+          g.selectAll('polygon').transition().style('fill-opacity', cfg.opacityArea);
         });
 
       d.forEach(function (y, x) {
-        g.selectAll(".nodes")
+        g.selectAll('.nodes')
           .data(y)
           .enter()
-          .append("svg:circle")
-          .attr("class", "radar-chart-serie" + series)
-          .attr("r", cfg.radius)
-          .attr("alt", function (j) {
-            return Math.max(j.value, 0);
+          .append('svg:circle')
+          .attr('class', 'radar-chart-serie' + series)
+          .attr('r', cfg.radius)
+          .attr('alt', (k) => {
+            const j = k as { value: number };
+            return Math.max(Math.max(j.value, 0), 0);
           })
-          .attr("cx", function (j, i) {
+          .attr('cx', (k, i) => {
+            const j = k as { value: number };
             var dv = [];
             dv.push([
               (cfg.w / 2) *
                 (1 -
-                  (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) *
+                  (parseFloat(Math.max(j.value, 0).toString()) / cfg.maxValue) *
                     cfg.factor *
                     Math.sin((i * cfg.radians) / total)),
               (cfg.h / 2) *
                 (1 -
-                  (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) *
+                  (parseFloat(Math.max(j.value, 0).toString()) / cfg.maxValue) *
                     cfg.factor *
-                    Math.cos((i * cfg.radians) / total)),
+                    Math.cos((i * cfg.radians) / total))
             ]);
             return (
               (cfg.w / 2) *
@@ -365,7 +360,8 @@ export default function AudioFeatures({
                   Math.sin((i * cfg.radians) / total))
             );
           })
-          .attr("cy", function (j, i) {
+          .attr('cy', function (k, i) {
+            const j = k as { value: number };
             return (
               (cfg.h / 2) *
               (1 -
@@ -374,36 +370,35 @@ export default function AudioFeatures({
                   Math.cos((i * cfg.radians) / total))
             );
           })
-          .attr("data-id", function (j) {
+          .attr('data-id', function (j) {
             return j.axis;
           })
-          .style("fill", cfg.color[series])
-          .style("fill-opacity", 0.9)
-          .style("fill", "#23B883")
-          .style("fill-opacity", 0.9)
-          .on("mouseover", function (e, d) {
-            let newX = parseFloat(d3.select(this).attr("cx")) - 10;
-            let newY = parseFloat(d3.select(this).attr("cy")) - 5;
+          .style('fill', cfg.color[series])
+          .style('fill-opacity', 0.9)
+          .style('fill', '#23B883')
+          .style('fill-opacity', 0.9)
+          .on('mouseover', function (e, d) {
+            let newX = parseFloat(d3.select(this).attr('cx')) - 10;
+            let newY = parseFloat(d3.select(this).attr('cy')) - 5;
 
             tooltip
-              .attr("x", newX)
-              .attr("y", newY)
+              .attr('x', newX)
+              .attr('y', newY)
               // .text(Format(d.value))
-              .transition(200)
-              .style("opacity", 1);
+              .transition()
+              .style('opacity', 1);
 
-            let z = "polygon." + d3.select(this).attr("class");
-            g.selectAll("polygon").transition(200).style("fill-opacity", 0.1);
-            g.selectAll(z).transition(200).style("fill-opacity", 0.7);
+            let z = 'polygon.' + d3.select(this).attr('class');
+            g.selectAll('polygon').transition().style('fill-opacity', 0.1);
+            g.selectAll(z).transition().style('fill-opacity', 0.7);
           })
-          .on("mouseout", function () {
-            tooltip.transition(200).style("opacity", 0);
-            g.selectAll("polygon")
-              .transition(200)
-              .style("fill-opacity", cfg.opacityArea);
+          .on('mouseout', function () {
+            tooltip.transition().style('opacity', 0);
+            g.selectAll('polygon').transition().style('fill-opacity', cfg.opacityArea);
           })
-          .append("svg:title")
-          .text(function (j) {
+          .append('svg:title')
+          .text(function (k) {
+            const j = k as { value: number };
             return Math.max(j.value, 0);
           });
 
@@ -411,14 +406,19 @@ export default function AudioFeatures({
       });
       //Tooltip
       tooltip = g
-        .append("text")
-        .style("opacity", 0)
-        .style("font-family", "sans-serif")
-        .style("font-size", "13px");
+        .append('text')
+        .style('opacity', 0)
+        .style('font-family', 'sans-serif')
+        .style('font-size', '13px') as unknown as d3.Selection<
+        SVGTextElement,
+        unknown,
+        HTMLElement,
+        any
+      >;
     },
-    putLegends: function (id, d, cfg) {
+    putLegends: function (id: any, d: Record<string, unknown>[][], cfg: { w: number }) {
       const LegendLabels = d[0].reduce(
-        (acc, { axis, value }) =>
+        (acc: string | any[], { axis, value }: any) =>
           acc.concat(axis).concat((value * 10).toFixed(1)),
         []
       );
@@ -429,89 +429,84 @@ export default function AudioFeatures({
       //   .attr("height", 150)
 
       //Initiate Legend
-      console.log(cfg);
       var legend = d3
-        .select(".graph")
-        .append("g")
-        .attr("class", "legend")
-        .attr("height", 100)
-        .attr("width", 150)
-        .attr("transform", `translate(${cfg.w + 20}, 20)`);
+        .select('.graph')
+        .append('g')
+        .attr('class', 'legend')
+        .attr('height', 100)
+        .attr('width', 150)
+        .attr('transform', `translate(${cfg.w + 20}, 20)`);
       //Create colour squares
       legend
-        .selectAll("circle")
+        .selectAll('circle')
         .data(d[0].map(({ axis }) => axis))
         .enter()
-        .append("circle")
-        .attr("class", "circle")
-        .attr("r", 5)
-        .attr("cx", 5)
-        .attr("transform", "translate(0,-4)")
-        .attr("cy", function (d, i) {
+        .append('circle')
+        .attr('class', 'circle')
+        .attr('r', 5)
+        .attr('cx', 5)
+        .attr('transform', 'translate(0,-4)')
+        .attr('cy', function (d, i) {
           return i * 24;
         })
-        .attr("width", 10)
-        .attr("height", 10)
-        .style("fill", function (d, i) {
+        .attr('width', 10)
+        .attr('height', 10)
+        .style('fill', function (d, i) {
           return d3.schemeCategory10[i];
         });
 
       //Create text next to squares
       legend
-        .selectAll("text")
+        .selectAll('text')
         .data(LegendLabels)
         .enter()
-        .append("text")
-        .attr("x", function (d, i) {
+        .append('text')
+        .attr('x', function (d, i) {
           if (i % 2 !== 0) return 15;
           else return 60;
         })
-        .attr("y", function (d, i) {
+        .attr('y', function (d, i) {
           if (i % 2 !== 0) return i * 12 - 12;
           else return i * 12;
         })
-        .attr("font-size", "13px")
-        .attr("font-weight", function (d, i) {
-          if (i % 2 !== 0) return "bold";
-          else return "normal";
+        .attr('font-size', '13px')
+        .attr('font-weight', function (d, i) {
+          if (i % 2 !== 0) return 'bold';
+          else return 'normal';
         })
-        .attr("fill", "black")
+        .attr('fill', 'black')
         .text(function (d, i) {
-          if (i % 2 !== 0) return d + "/10";
+          if (i % 2 !== 0) return d + '/10';
           else return d;
         });
-    },
+    }
   };
 
   useEffect(() => {
     //Data
-    var d = [];
+    var d: Record<string, string | number>[][] = [];
     if (!data) {
       d.push([
-        { axis: "Dance", value: 0.735 },
-        { axis: "Energy", value: 0.578 },
+        { axis: 'Dance', value: 0.735 },
+        { axis: 'Energy', value: 0.578 },
         // { axis: "key", value: 5 },
         // { axis: "loudness", value: -11.84 },
         // { axis: "mode", value: 0 },
-        { axis: "Speech", value: 0.0461 },
-        { axis: "Acoustic", value: 0.514 },
-        { axis: "Instrumental", value: 0.0902 },
-        { axis: "Live", value: 0.159 },
-        { axis: "Valence", value: 0.624 },
+        { axis: 'Speech', value: 0.0461 },
+        { axis: 'Acoustic', value: 0.514 },
+        { axis: 'Instrumental', value: 0.0902 },
+        { axis: 'Live', value: 0.159 },
+        { axis: 'Valence', value: 0.624 }
         // { axis: "tempo", value: 98.002 },
         // { axis: "time_signature", value: 4 }
       ]);
     } else if (!sideLegendFlag) {
       d = d.concat(
-        data.map((entry) =>
-          Object.entries(entry).map(([k, v]) => ({ axis: k, value: v / 100 }))
-        )
+        data.map((entry) => Object.entries(entry).map(([k, v]) => ({ axis: k, value: v / 100 })))
       );
     } else {
       d = d.concat(
-        data.map((entry) =>
-          Object.entries(entry).map(([k, v]) => ({ axis: k, value: v }))
-        )
+        data.map((entry) => Object.entries(entry).map(([k, v]) => ({ axis: k, value: v })))
       );
     }
 
@@ -528,7 +523,7 @@ export default function AudioFeatures({
       areaLineStroke,
       axisLineStroke,
       radius: radius,
-      areaBetween,
+      areaBetween
     };
 
     //Call function to draw the Radar chart
