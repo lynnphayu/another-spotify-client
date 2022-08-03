@@ -1,7 +1,7 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import AudioFeatures from "./audioFeatures";
-import FavouritesTracks from "./tracks";
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import AudioFeatures from './audioFeatures';
+import FavouritesTracks from './tracks';
 
 export default function Landing() {
   return (
@@ -12,9 +12,8 @@ export default function Landing() {
             className="w-24 h-24 rounded-full border-2 bg-local bg-center bg-contain"
             style={{
               backgroundImage:
-                "url(https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1022768947785978&height=300&width=300&ext=1614252702&hash=AeRLpcsZEVIfPCQF3Pc)",
-            }}
-          ></div>
+                'url(https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1022768947785978&height=300&width=300&ext=1614252702&hash=AeRLpcsZEVIfPCQF3Pc)'
+            }}></div>
           {/* <img className="max-w-full h-24 rounded-full border-2"
           src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1022768947785978&height=300&width=300&ext=1614252702&hash=AeRLpcsZEVIfPCQF3Pc" alt="" /> */}
         </div>
@@ -40,8 +39,7 @@ export default function Landing() {
             stroke="currentColor"
             fill="none"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+            strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
           </svg>
@@ -62,8 +60,7 @@ export default function Landing() {
             stroke="currentColor"
             fill="none"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+            strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path d="M19 6.873a2 2 0 0 1 1 1.747v6.536a2 2 0 0 1 -1.029 1.748l-6 3.833a2 2 0 0 1 -1.942 0l-6 -3.833a2 2 0 0 1 -1.029 -1.747v-6.537a2 2 0 0 1 1.029 -1.748l6 -3.572a2.056 2.056 0 0 1 2 0l6 3.573z"></path>
           </svg>
@@ -84,8 +81,7 @@ export default function Landing() {
             stroke="currentColor"
             fill="none"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+            strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <circle cx="12" cy="12" r="9"></circle>
             <polyline points="12 7 12 12 15 15"></polyline>
@@ -107,8 +103,7 @@ export default function Landing() {
             stroke="currentColor"
             fill="none"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+            strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
             <path d="M12 21h-5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v4.5"></path>
@@ -132,8 +127,7 @@ export default function Landing() {
             stroke="currentColor"
             fill="none"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+            strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <circle cx="14" cy="17" r="3"></circle>
             <path d="M17 17v-13h4"></path>
@@ -145,9 +139,7 @@ export default function Landing() {
       </div>
       <div className="row-start-2 row-span-6 col-start-3 col-end-7 md:flex hidden border-2 rounded-md">
         <Routes>
-          <Route path={`/landing/personal-audio-features`}>
-            <AudioFeatures />
-          </Route>
+          <Route path={`/landing/personal-audio-features`}>{/* <AudioFeatures /> */}</Route>
           <Route path={`/landing/favourite-tracks`}>
             <FavouritesTracks tracks={undefined} />
           </Route>

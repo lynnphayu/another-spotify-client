@@ -1,10 +1,20 @@
-import React from 'react';
+import { atom, useAtom } from 'jotai';
+import React, { useEffect } from 'react';
+import useSWR from 'swr';
 import { useNavigate } from 'react-router-dom';
 import ButtonWithIcon from '../components/buttonWithIcon';
 import ProfileBriefCard from '../components/profileBriefCard';
+import { cFetch, useCSWR } from '../utils/client';
+import { loadingAtom } from '../App';
+import { Profile } from '../types';
+import { tokenAtom } from '../App';
 
 export default function Landing() {
   const history = useNavigate();
+  const [token] = useAtom(tokenAtom);
+
+  const { data: profile, error } = useCSWR<Profile>('/profile', token);
+
   const BUTTONS = [
     {
       text: 'Personal Audio Features',
@@ -47,6 +57,26 @@ export default function Landing() {
       onClick: () => history('/favourite-artists')
     },
     {
+      text: 'Favourites Tracks',
+      svgIcon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="text-green-500"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          strokeWidth="2"
+          stroke="currentColor"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
+        </svg>
+      ),
+      onClick: () => history('/favourite-tracks')
+    },
+    {
       text: 'Recently Played Tracks',
       svgIcon: (
         <svg
@@ -65,7 +95,7 @@ export default function Landing() {
           <polyline points="12 7 12 12 15 15"></polyline>
         </svg>
       ),
-      onClick: () => history('/favourite-tracks')
+      onClick: () => history('/recently-played')
     },
     {
       text: 'Browse Tracks',
@@ -118,7 +148,7 @@ export default function Landing() {
   return (
     <div className="flex flex-wrap justify-center grid grid-cols-6 grid-row-7 gap-2 w-full">
       <div className="col-span-6 md:col-span-3 clear-both">
-        <ProfileBriefCard profile={undefined} />
+        {profile && <ProfileBriefCard profile={profile} />}
       </div>
       <div className="col-span-0 md:col-span-3"></div>
       <div className="col-span-6 md:col-span-2">

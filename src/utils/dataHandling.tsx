@@ -1,4 +1,4 @@
-import { Image } from '../types/tracks';
+import { Image } from '../types';
 
 export function getSmallestSizeImage(images: Image[] = [], size: number) {
   let url = images.find(({ width }) => width === size)?.url;
@@ -15,15 +15,17 @@ export function getArtistsNames(artists: Record<string, unknown>[] = []) {
 }
 
 export function genreAggregate(genres: string[] = []) {
+  // if genre length is 0, return
+  if (genres.length === 0) return '';
   let genre = genres[0];
   genres.length > 1 && (genre = genre.concat(', ' + genres[1] + ' '));
   if (genres.length > 3) {
-    const more = (
-      <p key={'voerflow'} className="inline text-gray-500">
-        {'+' + (genres.length - 3) + ' more'}
-      </p>
-    );
-    return [genre, more];
+    // const more = (
+    //   <p key={'overflow'} className="inline text-gray-500">
+    //     {'+' + (genres.length - 3) + ' more'}
+    //   </p>
+    // );
+    return genre.concat('+' + (genres.length - 3) + ' more');
   }
   return genre;
 }

@@ -43,6 +43,7 @@ export default function SearchPanel() {
       <div className="flex items-center justify-center">
         <div className="flex-grow-0 flex-none border-2 rounded-md h-auto">
           <AudioFeatures
+            type=""
             data={[feature].reduce((acc: Record<string, number>[], val) => {
               const lowerBound = Object.entries(val).reduce(
                 (accu: Record<string, number>, [k, { value: v, disabled }]) => {

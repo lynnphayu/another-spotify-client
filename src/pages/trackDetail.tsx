@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import { getArtistsNames, getSmallestSizeImage } from '../utils/dataHandling';
 import AlbumCard from '../components/albumCard';
 import TrackCard from '../components/commonBriefCard';
-import { Track } from '../types/tracks';
+import { Track } from '../types';
 
 export default function TrackDetail() {
   const {

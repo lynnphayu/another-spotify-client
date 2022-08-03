@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router';
-import { Track } from '../types/tracks';
+import { Track } from '../types';
 import { getArtistsNames, getSmallestSizeImage } from '../utils/dataHandling';
 import AlbumCard from './albumCard';
 import TrackCard from './commonBriefCard';

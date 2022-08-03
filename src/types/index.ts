@@ -1,3 +1,9 @@
+export type Profile = {
+  images: Image[];
+  country: string;
+  display_name: string;
+  email: string;
+};
 export type Track = {
   album: Album;
   name: string;
@@ -49,4 +55,25 @@ export type Owner = {
 
 export type ExternalUrls = {
   spotify: string;
+};
+
+export type AudioFeatures = {
+  danceability: number;
+  energy: number;
+  key: number;
+  loudness: number;
+  mode: number;
+  speechiness: number;
+  acousticness: number;
+  instrumentalness: number;
+  liveness: number;
+  valence: number;
+  tempo: number;
+  duration_ms: number;
+  time_signature: number;
+  track_href: string;
+  analysis_url: string;
+  type: string;
+  id: string;
+  uri: string;
 };

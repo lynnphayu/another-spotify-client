@@ -23,9 +23,11 @@ type CFG = {
 };
 export default function AudioFeatures({
   data,
+  type,
   sideLegendFlag = true,
   options: { w, h, areaLineStroke, axisLineStroke, radius, areaBetween } = {}
 }: {
+  type: string;
   data?: Record<string, number>[];
   sideLegendFlag?: boolean;
   options?: Partial<CFG>;
@@ -88,7 +90,7 @@ export default function AudioFeatures({
       var g = d3
         .select(id)
         .append('svg')
-        .attr('class', 'graph')
+        .attr('class', `graph${type}`)
         .attr('width', cfg.w + cfg.ExtraWidthX)
         .attr('height', cfg.h + cfg.ExtraWidthY)
         .append('g')
@@ -431,12 +433,12 @@ export default function AudioFeatures({
 
       //Initiate Legend
       var legend = d3
-        .select('.graph')
+        .select(`.graph${type}`)
         .append('g')
         .attr('class', 'legend')
         .attr('height', 100)
         .attr('width', 150)
-        .attr('transform', `translate(${cfg.w + 20}, 20)`);
+        .attr('transform', `translate(${cfg.w + 10}, 20)`);
       //Create colour squares
       legend
         .selectAll('circle')
@@ -464,7 +466,7 @@ export default function AudioFeatures({
         .append('text')
         .attr('x', function (d, i) {
           if (i % 2 !== 0) return 15;
-          else return 60;
+          else return 45;
         })
         .attr('y', function (d, i) {
           if (i % 2 !== 0) return i * 12 - 12;
@@ -477,7 +479,7 @@ export default function AudioFeatures({
         })
         .attr('fill', 'black')
         .text(function (d, i) {
-          if (i % 2 !== 0) return d + '/10';
+          if (i % 2 !== 0) return d;
           else return d;
         });
     }
@@ -532,5 +534,5 @@ export default function AudioFeatures({
     RadarChart.draw(ref.current, d, mycfg);
     sideLegendFlag && RadarChart.putLegends(ref.current, d, mycfg);
   });
-  return <div className="m-2 h-auto" ref={ref}></div>;
+  return <div className="max-w-min" ref={ref}></div>;
 }

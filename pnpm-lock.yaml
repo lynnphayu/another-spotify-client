@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/d3': ^7.4.0
+  '@types/node': ^18.6.3
   '@types/react': ^18.0.15
   '@types/react-dom': ^18.0.6
   '@types/react-transition-group': ^4.4.5
@@ -13,6 +14,7 @@ specifiers:
   eslint: ^8.20.0
   eslint-config-airbnb: ^19.0.4
   eslint-plugin-react: ^7.30.1
+  jotai: ^1.7.6
   postcss: ^8.4.14
   prettier: ^2.7.1
   react: ^18.2.0
@@ -20,20 +22,24 @@ specifiers:
   react-router: ^6.3.0
   react-router-dom: ^6.3.0
   react-transition-group: ^4.4.2
+  swr: ^1.3.0
   tailwindcss: ^3.1.6
   typescript: ^4.6.4
   vite: ^3.0.0
 
 dependencies:
   d3: 7.6.1
+  jotai: 1.7.6_react@18.2.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-router: 6.3.0_react@18.2.0
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-transition-group: 4.4.2_biqbaboplfbrettd7655fr4n2y
+  swr: 1.3.0_react@18.2.0
 
 devDependencies:
   '@types/d3': 7.4.0
+  '@types/node': 18.6.3
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
   '@types/react-transition-group': 4.4.5
@@ -596,6 +602,10 @@ packages:
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/node/18.6.3:
+    resolution: {integrity: sha512-6qKpDtoaYLM+5+AFChLhHermMQxc3TOEFIDzrZLPRGHPrLEwqFkkT5Kx3ju05g6X7uDPazz3jHbKPX0KzCjntg==}
     dev: true
 
   /@types/prop-types/15.7.5:
@@ -2169,6 +2179,43 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
 
+  /jotai/1.7.6_react@18.2.0:
+    resolution: {integrity: sha512-D3R5f6OvwUPUyTPQY3wGP800nb6bDEOl/mqftjxg3gcHVITeFcldr9W9IBK+gXsow357vhNXuci/LfD+rl92PA==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      '@urql/core': '*'
+      immer: '*'
+      optics-ts: '*'
+      react: '>=16.8'
+      react-query: '*'
+      valtio: '*'
+      wonka: '*'
+      xstate: '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      '@urql/core':
+        optional: true
+      immer:
+        optional: true
+      optics-ts:
+        optional: true
+      react-query:
+        optional: true
+      valtio:
+        optional: true
+      wonka:
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -2785,6 +2832,14 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /swr/1.3.0_react@18.2.0:
+    resolution: {integrity: sha512-dkghQrOl2ORX9HYrMDtPa7LTVHJjCTeZoB1dqTbnnEDlSvN8JEKpYIYurDfvbQFUUS8Cg8PceFVZNkW0KNNYPw==}
+    peerDependencies:
+      react: ^16.11.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /tailwindcss/3.1.6:
     resolution: {integrity: sha512-7skAOY56erZAFQssT1xkpk+kWt2NrO45kORlxFPXUt3CiGsVPhH1smuH5XoDH6sGPXLyBv+zgCKA2HWBsgCytg==}
