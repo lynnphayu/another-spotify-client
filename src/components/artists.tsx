@@ -8,7 +8,7 @@ export default function Artists({ artists = [] }: { artists?: Artist[] }) {
   const history = useNavigate();
 
   return (
-    <div className="grid gap-x-4">
+    <div className="w-full">
       {artists.map((artist, i) => {
         const { name, images, popularity, genres } = artist;
         const url = getSmallestSizeImage(images, 64);
@@ -16,7 +16,7 @@ export default function Artists({ artists = [] }: { artists?: Artist[] }) {
           <div
             key={i}
             onClick={() => history('/artist-detail', { state: { artist } })}
-            className="cursor-pointer border-t-2 border-l-2 border-r-2 border-white hover:border-green-500 rounded-md">
+            className="cursor-pointer border-t-2 border-l-2 border-r-2 border-white hover:border-green-500 rounded-md max-w-full">
             <div className="flex flex-wrap content-center items-center border-b-2 p-2 hover:border-green-500 hover:rounded-b-md">
               {/* <div className="w-1/6"> */}
               <div

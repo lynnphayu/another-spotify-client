@@ -14,7 +14,7 @@ export default function Playlists() {
   );
 
   return (
-    <div className="grid gap-x-4 w-full">
+    <div className="w-full">
       <PlaylistsComponent playlists={playlists?.items} />
     </div>
   );

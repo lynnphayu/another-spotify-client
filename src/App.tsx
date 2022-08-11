@@ -52,7 +52,7 @@ function App() {
   return (
     <TransitionGroup>
       <CSSTransition key={location.key} classNames="fade" timeout={500}>
-        <div className="relative md:px-auto h-screen w-screen justify-center flex flex-wrap content-start py-6 px-6 pd:py-12 md:px-96">
+        <div className="relative md:px-auto h-screen w-screen justify-center flex flex-wrap content-start py-6 px-6 mp:py-12 lg:px-80 md:px-80">
           <Suspense
             fallback={
               <div className="h-full w-full flex flex-wrap items-center content-center justify-center">
@@ -70,21 +70,40 @@ function App() {
                 </span>
               </div>
             )} */}
-            <Routes location={location}>
-              <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/password" element={<Password />} />
-              <Route path="/audio-features" element={<PersonalAudioFeatures />} />
-              <Route path="/favourite-tracks" element={<FavouriteTracks />} />
-              <Route path="/favourite-artists" element={<FavouriteArtists />} />
-              <Route path="/recently-played" element={<RecentlyPlayedTracks />} />
-              <Route path="/search-panel" element={<SearchPanel />} />
-              <Route path="/genres" element={<Genres />} />
-              <Route path="/track-detail" element={<TrackDetail />} />
-              <Route path="/playlists" element={<Playlists />} />
-              <Route path="/playlist-detail" element={<PlaylistDetail />} />
-              <Route path="/artist-detail" element={<ArtistDetail />} />
-            </Routes>
+            <div className="hidden md:flow-root">
+              <Routes location={location}>
+                <Route path="/" element={<Landing />}>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/audio-features" element={<PersonalAudioFeatures />} />
+                  <Route path="/favourite-tracks" element={<FavouriteTracks />} />
+                  <Route path="/favourite-artists" element={<FavouriteArtists />} />
+                  <Route path="/recently-played" element={<RecentlyPlayedTracks />} />
+                  <Route path="/search-panel" element={<SearchPanel />} />
+                  <Route path="/genres" element={<Genres />} />
+                  <Route path="/track-detail" element={<TrackDetail />} />
+                  <Route path="/playlists" element={<Playlists />} />
+                  <Route path="/playlist-detail" element={<PlaylistDetail />} />
+                  <Route path="/artist-detail" element={<ArtistDetail />} />
+                </Route>
+              </Routes>
+            </div>
+            <div className="md:hidden">
+              <Routes location={location}>
+                <Route path="/" element={<Landing />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/password" element={<Password />} />
+                <Route path="/audio-features" element={<PersonalAudioFeatures />} />
+                <Route path="/favourite-tracks" element={<FavouriteTracks />} />
+                <Route path="/favourite-artists" element={<FavouriteArtists />} />
+                <Route path="/recently-played" element={<RecentlyPlayedTracks />} />
+                <Route path="/search-panel" element={<SearchPanel />} />
+                <Route path="/genres" element={<Genres />} />
+                <Route path="/track-detail" element={<TrackDetail />} />
+                <Route path="/playlists" element={<Playlists />} />
+                <Route path="/playlist-detail" element={<PlaylistDetail />} />
+                <Route path="/artist-detail" element={<ArtistDetail />} />
+              </Routes>
+            </div>
           </Suspense>
           {!(location.pathname === '/' || location.pathname === '/login') && (
             <div

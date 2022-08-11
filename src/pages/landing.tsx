@@ -1,13 +1,16 @@
 import { atom, useAtom } from 'jotai';
 import React, { useEffect } from 'react';
 import useSWR from 'swr';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import ButtonWithIcon from '../components/buttonWithIcon';
 import ProfileBriefCard from '../components/profileBriefCard';
 import { cFetch, useCSWR } from '../utils/client';
 import { loadingAtom } from '../App';
 import { Profile } from '../types';
 import { tokenAtom } from '../App';
+import AudioFeatures from '../components/audioFeatures';
+import FavouriteTracks from './favouriteTracks';
+import PersonalAudioFeatures from './personalAudioFeatures';
 
 export default function Landing() {
   const history = useNavigate();
@@ -146,24 +149,21 @@ export default function Landing() {
     }
   ];
   return (
-    <div className="flex flex-wrap justify-center grid grid-cols-6 grid-row-7 gap-2 w-full">
-      <div className="col-span-6 md:col-span-3 clear-both">
+    <div className="justify-center grid grid-cols-6 gap-2">
+      <div className="col-span-6 clear-both">
         {profile && <ProfileBriefCard profile={profile} />}
       </div>
-      <div className="col-span-0 md:col-span-3"></div>
-      <div className="col-span-6 md:col-span-2">
+      {/* <div className="col-span-0 md:col-span-2"></div> */}
+      <div className="col-span-6 md:col-span-2 lg:col-span-2 my-2 mr-2">
         {BUTTONS.map(({ text, svgIcon, onClick }, index) => (
           <div key={index} className="my-2">
             <ButtonWithIcon text={text} svgIcon={svgIcon} onClick={onClick} />
           </div>
         ))}
       </div>
-      {/* <div className="row-start-2 row-span-6 col-start-3 col-end-7 md:flex hidden border-2 rounded-md">
-      <Switch>
-        <Route path={`/landing/personal-audio-features`}><AudioFeatures /></Route>
-        <Route path={`/landing/favourite-tracks`}><FavouritesTracks /></Route>
-      </Switch>
-    </div> */}
+      <div className="col-start-3 col-end-7 md:flow-root hidden border-2 rounded-md my-4 ml-2 p-2">
+        <Outlet />
+      </div>
     </div>
   );
 }

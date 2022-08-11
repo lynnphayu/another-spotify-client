@@ -12,11 +12,15 @@ export const cFetch = (url: string, token: string) =>
         window.location.href = `/login?redirect=${window.location.pathname}`;
       } else return e;
     })
-    .then((e) => e?.json());
+    .then((e) => e?.json())
+    .catch((e) => {
+      console.log(e);
+      return {};
+    });
 
 export const useCSWR = <T = unknown>(url: string, token?: string) =>
   useSWR<T>(
     token ? `${import.meta.env.VITE_API_ENDPOINT}${url}` : null,
     () => cFetch(url, token!),
-    { suspense: true }
+    // { suspense: true }
   );
